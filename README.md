@@ -45,3 +45,7 @@ locust http://localhost:8089
 [locust](https://github.com/locustio/locust)
 
 [boomer](https://github.com/myzhan/boomer)
+
+## License
+
+Open source licensed under the MIT license (see LICENSE file for details).
