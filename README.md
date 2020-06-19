@@ -7,6 +7,7 @@ Boomer locust with prometheues and grafana example. Using docker-compose.yml.
 ```
 # get code
 git clone git@github.com:ShaoNianyr/boomer_locust.git
+cd boomer_locust
 
 # add venv
 python3 -m venv env .
