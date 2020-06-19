@@ -18,7 +18,7 @@ source env/bin/activate
 # install locust
 pip3 install locust
 
-# vi prometheus_exporter.py
+# vi prometheus.yml
 targets: ['your_ip:8089']  # replace your real ip
 
 # install and run grafana & prometheus
