@@ -5,6 +5,8 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/data:/root/prometheus/prometheus-data
+    links:
+      - locust-master
     ports:
       - "9090:9090"
 
@@ -12,5 +14,35 @@ services:
     image: grafana/grafana
     volumes:
       - ./grafana/data:/var/lib/grafana
+    links:
+      - prometheus
     ports:
       - "3000:3000"
+
+  flask-demo:
+    image: shaonian/flask-demo:latest
+
+  locust-master:
+    image: shaonian/locust-master:latest
+    ports:
+      - "8089:8089"
+
+  locust-slave1:
+    image: shaonian/locust-slave:latest
+    command:
+      - ./flask
+      - --master-host
+      - locust-master
+    links:
+      - locust-master
+      - flask-demo
+
+  # locust-slave2:
+  #   image: shaonian/locust-slave:latest
+    # command:
+    #   - ./flask
+    #   - --master-host
+    #   - locust-master
+    # links:
+    #   - locust-master
+    #   - flask-demo
