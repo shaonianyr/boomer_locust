@@ -1,6 +1,6 @@
 ## Boomer_locust
 
-Boomer locust with prometheues and grafana example. Using docker-compose.yml.
+Distributed pressure measurement for docker & k8s. Using Boomer locust with prometheues and grafana.
 
 View testerhome for more details: https://testerhome.com/topics/24828
 
@@ -119,7 +119,7 @@ locust-slave 启动以后开始根据指定的 master-host 进行连接。
 
 此时，各组件间通信建立成功，集群内部压力产生成功，压力图表扩展成功。
 
-图片若不能查看，或想更多细节，请前往 testerhome: https://testerhome.com/topics/24828
+图片若不能查看，或想了解更多细节，请前往 testerhome: https://testerhome.com/topics/24828
 
 ## Contributing
 
