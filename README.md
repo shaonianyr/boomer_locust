@@ -11,16 +11,7 @@ View testerhome for more details: https://testerhome.com/topics/24828
 git clone git@github.com:ShaoNianyr/boomer_locust.git
 cd boomer_locust
 
-# add venv
-python3 -m venv env .
-
-# activate venv
-source env/bin/activate
-
-# install locust
-pip3 install locust
-
-# install and run grafana & prometheus
+# run server with docker-compose
 docker-compose up -d
 
 # view your urls
