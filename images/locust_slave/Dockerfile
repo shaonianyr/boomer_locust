@@ -2,8 +2,8 @@ FROM alpine:latest
 
 WORKDIR /
 
-COPY ./linux/flask /
+COPY ./linux/target /
 
-RUN chmod +x ./flask
+RUN chmod +x ./target
 
-CMD ["./flask"]
+CMD ["./target"]

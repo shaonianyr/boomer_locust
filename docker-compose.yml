@@ -30,19 +30,21 @@ services:
   locust-slave1:
     image: shaonian/locust-slave:latest
     command:
-      - ./flask
-      - --master-host
-      - locust-master
+      - ./target
+      - --master-host=locust-master
+      - --master-port=5557
+      - http://flask-demo:5000
     links:
       - locust-master
       - flask-demo
 
   # locust-slave2:
   #   image: shaonian/locust-slave:latest
-    # command:
-    #   - ./flask
-    #   - --master-host
-    #   - locust-master
-    # links:
-    #   - locust-master
-    #   - flask-demo
+  #   command:
+  #     - ./target
+  #     - --master-host=locust-master
+  #     - --master-port=5557
+  #     - http://flask-demo:5000
+  #   links:
+  #     - locust-master
+  #     - flask-demo

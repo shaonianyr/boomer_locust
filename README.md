@@ -64,22 +64,24 @@ services:
   locust-slave1:
     image: shaonian/locust-slave:latest
     command:
-      - ./flask
-      - --master-host
-      - locust-master
+      - ./target
+      - --master-host=locust-master
+      - --master-port=5557
+      - http://flask-demo:5000
     links:
       - locust-master
       - flask-demo
 
   # locust-slave2:
   #   image: shaonian/locust-slave:latest
-    # command:
-    #   - ./flask
-    #   - --master-host
-    #   - locust-master
-    # links:
-    #   - locust-master
-    #   - flask-demo
+  #   command:
+  #     - ./target
+  #     - --master-host=locust-master
+  #     - --master-port=5557
+  #     - http://flask-demo:5000
+  #   links:
+  #     - locust-master
+  #     - flask-demo
 ```
 
 ![2](2.png)
@@ -92,21 +94,17 @@ locust-slave 启动以后开始根据指定的 master-host 进行连接。
 
 此时 locust-master & locust-slave 已经建立了通信。
 
-现在我们来对内部网络的 http://flask-demo:5000/ & http://flask-demo:5000/text 这个两个路由进行 1:3 比重的压测访问。这里的 host 不再是传统的 URL，而是一个容器服务的名字。
+locust-slave 镜像经过优化，可以指定 targetUrl 对非占比型的压测提供便利的测试，无需重新构建镜像。
 
-![4](4.png)
+```
+./target --master-host=locust-master --master-port=5557 http://flask-demo:5000
+```
+
+现在我们来对内部网络的 http://flask-demo:5000 压测访问。这里的 host 不再是传统的 URL，而是一个容器服务的名字。
+
+![7](7.png)
 
 此时查看 flask-demo 的容器日志，发现压力已经正常产生。
-
-此时原生 locust 图表展示如下:
-
-![5](5.png)
-
-两个路由的比重满足 1:3 的条件。
-
-此时 grafana & promethues 的扩展图表展示如下:
-
-![6](6.png)
 
 此时，各组件间通信建立成功，集群内部压力产生成功，压力图表扩展成功。
 
