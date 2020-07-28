@@ -10,7 +10,7 @@ import (
 	"github.com/myzhan/boomer"
 )
 
-var verbose = false
+var verbose = true
 
 // change to your own service and method
 var service = "helloworld.Greeter"
@@ -42,16 +42,17 @@ func rpcReq() {
 		if verbose {
 			log.Printf("%v\n", err)
 		}
-		boomer.RecordFailure("rpc", "error", 0.0, err.Error())
+		boomer.RecordFailure("rpc", "helloworld.proto", 0.0, err.Error())
 	} else {
 		// make your assertion
-		boomer.RecordSuccess("rpc", "succ",
+		boomer.RecordSuccess("rpc", "helloworld.proto",
 			elapsed.Nanoseconds()/int64(time.Millisecond), int64(len(resp.String())))
 		if verbose {
 			if err != nil {
 				log.Printf("%v\n", err)
 			} else {
 				log.Printf("Resp Length: %d\n", len(resp.String()))
+				log.Println("Resp Time:",elapsed.Nanoseconds()/int64(time.Millisecond), "ms")
 				log.Println(resp.String())
 			}
 		}
