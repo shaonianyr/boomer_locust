@@ -60,8 +60,8 @@ func rpcReq() {
 }
 
 func main() {
-	flag.StringVar(&addr, "a", "", "ip:port")
-	flag.StringVar(&reqJSONStr, "r", "{}", "request message in json form")
+	flag.StringVar(&addr, "url", "", "ip:port")
+	flag.StringVar(&reqJSONStr, "data", "{}", "request message in json form")
 	flag.Parse()
 
 	log.Printf(reqJSONStr)

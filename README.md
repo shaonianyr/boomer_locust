@@ -6,6 +6,10 @@ View testerhome for more details: https://testerhome.com/topics/24828
 
 ## Usage
 
+### HTTP/HTTPS
+
+To run http/https examples:
+
 ```
 # get code
 git clone git@github.com:ShaoNianyr/boomer_locust.git
@@ -15,100 +19,83 @@ cd boomer_locust
 docker-compose up -d
 
 # view your urls
-grafana http://localhost:3000
 locust http://localhost:8089
 ```
 
-## View
+Success:
 
-![cmd](cmd.png)
+![httpSucc](httpSucc.png)
 
-![newGrafana](newGrafana.png)
+### gRPC
 
-## Detail
-
-![1](1.png)
-
-如上图所示，flask-demo 是一个简易的服务器，我已经取消了对外暴露的访问，只有在集群内部才能访问到，于此同时，locust-master & locust-slave 也作为一个容器服务，同在一个集群网络中。locust-master & locust-slave & flask-demo 的镜像均已打包好， docker-compose.yml 详情如下:
+To run grpc examples:
 
 ```
-version: '2'
-services:
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus/data:/root/prometheus/prometheus-data
-    links:
-      - locust-master
-    ports:
-      - "9090:9090"
+# get code
+git clone git@github.com:ShaoNianyr/boomer_locust.git
+cd boomer_locust/grpc
 
-  grafana:
-    image: grafana/grafana
-    volumes:
-      - ./grafana/data:/var/lib/grafana
-    links:
-      - prometheus
-    ports:
-      - "3000:3000"
+# run server with docker-compose
+docker-compose up -d
 
-  flask-demo:
-    image: shaonian/flask-demo:latest
+# view your urls
+locust http://localhost:8089
+```
 
-  locust-master:
-    image: shaonian/locust-master:latest
-    ports:
-      - "8089:8089"
+Success:
 
-  locust-slave1:
+![grpcSucc](grpcSucc.png)
+
+### Set slave targetUrl
+
+```
+locust-slave1:
     image: shaonian/locust-slave:latest
     command:
       - ./target
       - --master-host=locust-master
       - --master-port=5557
       - --url=http://flask-demo:5000
-    links:
-      - locust-master
-      - flask-demo
+```
 
-  # locust-slave2:
-  #   image: shaonian/locust-slave:latest
-  #   command:
-  #     - ./target
-  #     - --master-host=locust-master
-  #     - --master-port=5557
-  #     - --url=http://flask-demo:5000
+You can set the targetUrl by using '--url'.
+
+TargetUrl in docker is combined by image_name and port.
+
+TargetUrl in k8s is combined by svc_name.namspace and port.
+
+### Grafana
+
+If you need grafana，please uncomment the following codes in your docker-compose.yml.
+
+```
+  # prometheus:
+  #   image: prom/prometheus
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ./prometheus/data:/root/prometheus/prometheus-data
   #   links:
   #     - locust-master
-  #     - flask-demo
+  #   ports:
+  #     - "9090:9090"
+
+  # grafana:
+  #   image: grafana/grafana
+  #   volumes:
+  #     - ./grafana/data:/var/lib/grafana
+  #   links:
+  #     - prometheus
+  #   ports:
+  #     - "3000:3000"
 ```
 
-![2](2.png)
+Grafana Dashboard:
 
-locust-master 启动以后开始监听有没有 slave 连上。
+![newGrafana](newGrafana.png)
 
-![3](3.png)
+## Detail
 
-locust-slave 启动以后开始根据指定的 master-host 进行连接。
-
-此时 locust-master & locust-slave 已经建立了通信。
-
-locust-slave 镜像经过优化，可以指定 targetUrl 对非占比型的压测提供便利的测试，无需重新构建镜像。
-
-```
-./target --master-host=locust-master --master-port=5557 --url=http://flask-demo:5000
-```
-
-现在我们来对内部网络的 http://flask-demo:5000 压测访问。这里的 host 不再是传统的 URL，而是一个容器服务的名字。
-
-![7](7.png)
-
-此时查看 flask-demo 的容器日志，发现压力已经正常产生。
-
-此时，各组件间通信建立成功，集群内部压力产生成功，压力图表扩展成功。
-
-图片若不能查看，或想了解更多细节，请前往 testerhome: https://testerhome.com/topics/24828
+For more detail, view testerhome: https://testerhome.com/topics/24828
 
 ## Contributing
 
