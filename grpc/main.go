@@ -20,7 +20,7 @@ var poolsize = 200
 
 var (
 	targetUrl       string
-	data string
+	data            string
 	client     *grequester.Requester
 	req        *HelloRequest
 )

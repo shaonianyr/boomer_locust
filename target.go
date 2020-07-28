@@ -14,7 +14,6 @@ var targetUrl string
 func getIndex() {
 	start := time.Now()
 
-	// url := string(targetUrl)
 	resp, err := http.Get(string(targetUrl))
 
 	if err != nil {
