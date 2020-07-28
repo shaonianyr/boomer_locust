@@ -44,7 +44,7 @@ services:
   #     - ./target
   #     - --master-host=locust-master
   #     - --master-port=5557
-  #     - http://flask-demo:5000
+  #     - --url=http://flask-demo:5000
   #   links:
   #     - locust-master
   #     - flask-demo

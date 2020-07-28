@@ -67,7 +67,7 @@ services:
       - ./target
       - --master-host=locust-master
       - --master-port=5557
-      - http://flask-demo:5000
+      - --url=http://flask-demo:5000
     links:
       - locust-master
       - flask-demo
@@ -78,7 +78,7 @@ services:
   #     - ./target
   #     - --master-host=locust-master
   #     - --master-port=5557
-  #     - http://flask-demo:5000
+  #     - --url=http://flask-demo:5000
   #   links:
   #     - locust-master
   #     - flask-demo
@@ -97,7 +97,7 @@ locust-slave 启动以后开始根据指定的 master-host 进行连接。
 locust-slave 镜像经过优化，可以指定 targetUrl 对非占比型的压测提供便利的测试，无需重新构建镜像。
 
 ```
-./target --master-host=locust-master --master-port=5557 http://flask-demo:5000
+./target --master-host=locust-master --master-port=5557 --url=http://flask-demo:5000
 ```
 
 现在我们来对内部网络的 http://flask-demo:5000 压测访问。这里的 host 不再是传统的 URL，而是一个容器服务的名字。
