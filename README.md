@@ -26,6 +26,24 @@ Success:
 
 ![httpSucc](httpSucc.png)
 
+Set slave targetUrl:
+
+```
+locust-slave1:
+    image: shaonian/locust-slave:latest
+    command:
+      - ./target
+      - --master-host=locust-master
+      - --master-port=5557
+      - --url=http://flask-demo:5000
+```
+
+You can set the targetUrl by using '--url'.
+
+TargetUrl in docker is combined by image_name and port.
+
+TargetUrl in k8s is combined by svc_name.namspace and port.
+
 ### gRPC
 
 To run grpc examples:
@@ -46,19 +64,20 @@ Success:
 
 ![grpcSucc](grpcSucc.png)
 
-### Set slave targetUrl
+Set slave targetUrl and targetData:
 
 ```
 locust-slave1:
-    image: shaonian/locust-slave:latest
+    image: shaonian/locust-slave-rpc:latest
     command:
-      - ./target
+      - ./helloworld.pb
       - --master-host=locust-master
       - --master-port=5557
-      - --url=http://flask-demo:5000
+      - --url=grpc-demo:50051
+      - --data={"name":"world"}
 ```
 
-You can set the targetUrl by using '--url'.
+You can set the targetUrl and targetData by using '--url' and '--data'.
 
 TargetUrl in docker is combined by image_name and port.
 
