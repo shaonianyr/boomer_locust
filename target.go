@@ -5,18 +5,17 @@ import (
 	"net/http"
 	"time"
 	"flag"
-	"os"
 
 	"github.com/myzhan/boomer"
 )
 
-var targetUrl = ""
+var targetUrl string
 
 func getIndex() {
 	start := time.Now()
 
-	url := string(targetUrl)
-	resp, err := http.Get(url)
+	// url := string(targetUrl)
+	resp, err := http.Get(string(targetUrl))
 
 	if err != nil {
 		log.Println(err)
@@ -38,13 +37,15 @@ func getIndex() {
 
 func main() {
 
+	flag.StringVar(&targetUrl, "url", "", "url or app:port")
 	flag.Parse()
 
-	argsWithPort := os.Args
+	if targetUrl == "" {
+		log.Println("Boomer target url is null")
+		return
+	}
 
-	targetUrl = argsWithPort[3]
-
-	log.Println("Boomer target url is", targetUrl)
+	log.Println("Boomer target url is", string(targetUrl))
 
 	task := &boomer.Task{
 		Name:   "getIndex",
