@@ -1,0 +1,41 @@
+version: '2'
+services:
+  # prometheus:
+  #   image: prom/prometheus
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ./prometheus/data:/root/prometheus/prometheus-data
+  #   links:
+  #     - locust-master
+  #   ports:
+  #     - "9090:9090"
+
+  # grafana:
+  #   image: grafana/grafana
+  #   volumes:
+  #     - ./grafana/data:/var/lib/grafana
+  #   links:
+  #     - prometheus
+  #   ports:
+  #     - "3000:3000"
+
+  http-demo:
+    image: shaonian/http-demo:latest
+
+  locust-master:
+    image: shaonian/locust-master:latest
+    ports:
+      - "8089:8089"
+
+  locust-slave1:
+    image: shaonian/locust-slave-http:latest
+    command:
+      - ./target
+      - --master-host=locust-master
+      - --master-port=5557
+      - --url=http://http-demo:8080
+      - --cpu-profile=cpu.pprof
+      - --cpu-profile-duration=60s
+    links:
+      - locust-master
+      - http-demo
