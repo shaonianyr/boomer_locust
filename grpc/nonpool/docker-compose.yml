@@ -28,13 +28,14 @@ services:
       - "8089:8089"
 
   locust-slave1:
-    image: shaonian/locust-slave-rpc:latest
+    image: shaonian/locust-slave-rpc:nonpool
     command:
-      - ./helloworld.pb
+      - ./main
       - --master-host=locust-master
       - --master-port=5557
       - --url=grpc-demo:50051
-      - --data={"name":"world"}
+      - --cpu-profile=cpu.pprof
+      - --cpu-profile-duration=60s
     links:
       - locust-master
       - grpc-demo

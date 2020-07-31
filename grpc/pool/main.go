@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/bugVanisher/grequester"
+	"github.com/ShaoNianyr/grequester"
 	"github.com/myzhan/boomer"
 )
 
@@ -16,7 +16,9 @@ var verbose = false
 var service = "helloworld.Greeter"
 var method = "SayHello"
 var timeout uint = 3000
-var poolsize = 200
+var initialCap = 100
+var maxCap = 500
+var maxIdle = 400
 
 var (
 	targetUrl       string
@@ -80,7 +82,7 @@ func main() {
 	}
 
 	// init requester
-	client = grequester.NewRequester(targetUrl, service, method, timeout, poolsize)
+	client = grequester.NewRequester(targetUrl, service, method, timeout, initialCap, maxCap, maxIdle)
 
 	task := &boomer.Task{
 		Name:   "rpcReq",
