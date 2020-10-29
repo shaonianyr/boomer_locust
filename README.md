@@ -4,6 +4,8 @@ Distributed pressure measurement for docker & k8s. Using Boomer locust with prom
 
 View testerhome for more details: https://testerhome.com/topics/24828
 
+Contact me on QQ group: 552643038
+
 ## Usage
 
 ### HTTP/HTTPS
