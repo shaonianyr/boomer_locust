@@ -18,7 +18,7 @@ psutil==5.7.0
 pyzmq==19.0.1
 requests==2.24.0
 six==1.15.0
-urllib3==1.25.9
+urllib3==1.26.5
 Werkzeug==1.0.1
 zope.event==4.4
 zope.interface==5.1.0
